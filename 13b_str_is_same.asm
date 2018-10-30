@@ -1,58 +1,58 @@
-Print macro x
-	mov dx, offset x
-	mov ah, 09
-	int 21h
-endm
-
-get_string macro x
-	mov dx, offset x
-	mov ah, 09
+get_str macro x
+	mov ah, 0ah
 	lea dx, x
 	int 21h
 endm
 
+Print macro x
+	mov ah,09
+	lea dx,x
+	int 21h
+endm
+
 data segment
-	str1 db 7 dup(0)
-	str2 db 7 dup(0)
-	msg1 db, 10, "Enter string 1: $"
-	msg2 db, 10, "Enter string 2: $"
-	msg3 db, 10, "Same$"
-	msg4 db, 10, "Not Same$"
+
+        str1 db 80 dup('$')
+        str2 db 80 dup('$')
+        msg1 db 10, 'ENTER THE FIRST STRING :$'
+        msg2 db 10, 'ENTER THE SECOND STRING :$'
+        msg3 db 10, 'THE TWO STRINGS ARE EQUAL$'
+        msg4 db 10, 'THE TWO STRINGS ARE NOT EQUAL$'
 data ends
 
+
 code segment
-assume cs:code, ds:data
+assume cs:code,ds:data
+start:
 
-start: mov ax, data
-	   mov ds, ax
-	   mov es, ax
+         mov ax, data
+         mov es, ax
+         mov ds, ax
 
-	   Print msg1
-	   get_string str1
-	   Print msg2
-	   get_string str2
+         Print msg1
+         get_str str1
 
-	   xor cx, cx
+         Print msg2
+         get_str str2
+       
+         lea si, str1 + 2
+         lea si, str2 + 2
+       
+         mov cl, str1 + 1      ; for storing the length of the string
+         mov ch, 00h
 
-	   cmp cx, 07
-	   jnz inv
+         repe cmpsb
+         jne notequal
 
-	   lea si, str1
-	   lea di, str2
-	   repe cmpsb
-	   jnz inv
+         Print msg3
+         jmp last
 
-	   Print msg1
+     notequal:
+         Print msg4
 
-	   jmp last
-
-	inv: Print msg2
-
-	last: mov ah, 4ch
-	      int 21h
-
+     last:      
+         mov ax,4ch
+         int 21h
+        
 code ends
 end start
-
-
-
