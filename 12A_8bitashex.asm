@@ -1,66 +1,41 @@
-;AIM : take 8bit number and store as hex
-
-print_msg macro x
-    mov dx, offset x
-    mov ah, 09
+Print macro msg
+    mov ah,09h
+    mov dx,offset msg
     int 21h
 endm
 
-
-bcd_to_hex_8b macro x
-    ; assume x has 56  ; 56 = 0x38
-
-    ; what aad does is consider ah as higher bit and
-    ; al as lower bit of bcd number
-    ; and stores hex of ah, al in al
-    ; So, for us, 03 should be in ah and al should have 08.
-
-    mov ah, x  ;        ax <-- 38 xx
-    mov al, x  ;        ax <-- 38 38
-    ror ah, 04 ;        ax <-- 83 38
-    and ah, 0fh;        ax <-- 03 38
-    and al, 0fh;        ax <-- 03 08
-    aad
-    mov x, al
+get_input macro
+    mov ah, 01h       ; scan first digit of num1
+    int 21h 
+    sub al, 30h  
+    mov dl, al        ; move it to dl for temporrary purpose
+    mov ah, 01h       ; scan second digit of num1
+    int 21h 
+    sub al, 30h       ; keep second digit of first num in al
+    mov ah, dl        ; move first digit of num1 from dl to ah
 endm
-
-
-
-input_8b macro x
-    ;assuming  user wants to enter 56, 
-    mov ah, 01;      ax <-- 01 xx
-    int 21h;         ax <-- 01 35
-    sub al, '0';     ax <-- 01 05
-    ror al, 04;      ax <-- 01 50
-    mov bh, al;      bl <-- 50
-    int 21h;         ax <-- 01 36
-    sub al, '0';     ax <-- 01 06
-    add al, bh;      ax <-- 01 56
-    mov x, al
-endm
-
 
 data segment
-    a db ?
-    ip_prompt_1 db "Enter a number : $"
-    successful db "Number converted successfully.$"
+    msg  db, 10, "Enter Number $"
+    msg1 db, 10, "Number Converted Successfully$"
+    num dw 2 dup(?)
 data ends
-
 
 code segment
 assume cs:code, ds:data
-
-start : mov ax, data
+start:  mov ax, data
         mov ds, ax
+        Print msg
 
-        print_msg ip_prompt_1
-        input_8b a          ; 1
-
-        bcd_to_hex_8b a
+        get_input
         
-        print_msg successful
+        aad               ; now ah has first digit and al has second digit of num1, pack 16bit digit to 8bit using aad
+        aam               ; expand 8bit al to 16bit ax
 
-terminate:mov ah, 4ch
-          int 21h
+        Print msg1
+
+        mov num, ax       ; 16bit output of aad is in ax, move ax to our variable num which is of 16bit ding ding ding!
+        mov ah, 4ch 
+        int 21h
 code ends
 end start
