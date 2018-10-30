@@ -48,6 +48,19 @@ start:
         daa                     ; 
         mov bx,ax               ;
 
+        mov cl,bl               
+        rol cl,04               
+
+        and cl,0fh
+        add cl,30h
+
+        mov dx,cx
+        mov ah,02
+        int 21h
+
+        and bl,0fh
+        add bl,30h
+
         mov dx,bx
         mov ah,02
         int 21h
