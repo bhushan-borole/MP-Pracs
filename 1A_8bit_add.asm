@@ -50,9 +50,9 @@ start:
         daa                     ; 
         mov bx,ax               ;
 
-        jnc L1
+        jnc L1                  ; checks if carry is present or not
 
-        mov dl, 31h
+        mov dl, 31h             ; print 1 if carry present
         mov ah, 02
         int 21h
 
