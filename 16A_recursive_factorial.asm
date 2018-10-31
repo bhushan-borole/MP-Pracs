@@ -37,9 +37,11 @@ start:
     mov Num_bh, al   ; store in var
  
     print StrFactIs
+    
     mov ax, 01h
     xor bx, bx
     mov bl, Num_bh
+
     CALL ProcFactorial
     xor cx, cx
     ;mov ax, Fact_bh
