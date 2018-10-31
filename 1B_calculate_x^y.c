@@ -2,8 +2,8 @@ void main()
 {
 	int x,y,res;
 	clrscr();
-	printf(&quot;Enter x,y:\n&quot;);
-	scanf(&quot;%d%d&quot;,&amp;x,&amp;y);
+	printf("Enter x,y:\n");
+	scanf("%d%d",&x,&y);
 	asm {
 		mov ax,01
 		mov bx,x
@@ -17,6 +17,6 @@ void main()
 	L2: asm {
 		
 	}
-	printf(&quot;Result=%d&quot;,res);
+	printf("Result=%d",res);
 	getch();
 }
