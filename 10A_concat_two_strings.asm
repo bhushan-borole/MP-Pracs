@@ -24,13 +24,13 @@ start:  mov ax, data
         xor bx, bx              
         mov ah, 01
 back1:  int 21h             
-        cmp al, 0dh          
+        cmp al, 0dh      ; until user presses enter
         jz endip1               
         stosb                   
         inc bx                  
         jmp back1          
  
-endip1: mov al,20h  
+endip1: mov al,20h  ; add space at the end of the string
         stosb                   
         inc bx                  
  
@@ -49,7 +49,7 @@ back2:  int 21h
 endip2: lea di, str1            
         lea si, str2
         add di, bx         
-        cld                  
+        cld                ; clears the direction flag  
         rep movsb 
                                          
         Print msg3
