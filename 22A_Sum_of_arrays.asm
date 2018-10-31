@@ -44,7 +44,6 @@ sum1:
     inc si
     loop sum1
 
-
     print_str strAns
 
     ; convert 8bit hex to bcd
