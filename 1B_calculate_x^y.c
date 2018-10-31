@@ -1,22 +1,24 @@
-void main()
-{
-	int x,y,res;
+#include<stdio.h>
+#include<conio.h>
+void main(){
+	int x,y,ans;
 	clrscr();
-	printf("Enter x,y:\n");
-	scanf("%d%d",&x,&y);
-	asm {
+	printf("Enter value of X:\n");
+	scanf("%d",&x);
+	printf("Enter value of Y:\n");
+	scanf("%d",&y);
+
+	asm{
 		mov ax,01
 		mov bx,x
 		mov cx,y
 	}
 
-	L1: asm {
-		mul bx
-		loop L1
+	l1:asm{
+	  mul bx
+	  loop l1
+	  mov ans,ax
 	}
-	L2: asm {
-		
-	}
-	printf("Result=%d",res);
+	printf("ANSWER : %d",ans);
 	getch();
 }
