@@ -1,3 +1,9 @@
+Print macro x
+    mov dx, offset x
+    mov ah, 09
+    int 21h
+endm
+
 data segment
         msg1 db "Enter first name: $"
         msg2 db "Enter second name: $"
@@ -12,9 +18,7 @@ start:  mov ax, data
         mov ds, ax
         mov es, ax
  
-        mov dx, offset msg1     
-        mov ah, 09
-        int 21h       
+        Print msg1       
  
         lea di, str1 
         xor bx, bx              
@@ -30,9 +34,7 @@ endip1: mov al,20h
         stosb                   
         inc bx                  
  
-        mov dx, offset msg2     
-        mov ah,09
-        int 21h
+        Print msg2
  
         lea di, str2           
         mov ah, 01
@@ -48,10 +50,9 @@ endip2: lea di, str1
         lea si, str2
         add di, bx         
         cld                  
-      rep movsb                                  
-        mov dx, offset msg3
-        mov ah, 09
-        int 21h
+        rep movsb 
+                                         
+        Print msg3
  
         mov dx, offset str1
         int 21h
