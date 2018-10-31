@@ -41,6 +41,8 @@ start:
 
         Print msg3
 
+
+
         xor ax,ax               ;clear junk values if any
 
         mov al,n1               ;
@@ -48,7 +50,13 @@ start:
         daa                     ; 
         mov bx,ax               ;
 
-        mov cl,bl               
+        jnc L1
+
+        mov dl, 31h
+        mov ah, 02
+        int 21h
+
+    L1: mov cl,bl               
         rol cl,04               
 
         and cl,0fh
