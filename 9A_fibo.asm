@@ -38,7 +38,7 @@ back:
     mov al, [si]
     aam
     mov bx, ax
-    add bx, 3030h      ; add 30h into ah and al.
+    add bx, 3030h      ; add 30h into bh and bl.
     mov dl, bh
     mov ah, 02h
     int 21h
