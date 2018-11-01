@@ -24,6 +24,7 @@ void main(){
 	}
 	L2: asm{
 		mov max, ax
+		jmp L4
 	}
 	L3: asm{
 		mov max, bx
