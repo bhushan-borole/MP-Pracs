@@ -7,7 +7,7 @@ void main(){
 	int y = 5;
 	int z = 100;
 	int t = 10;
-	clrscr();
+	clrscr()
 	printf("Enter Basic Pay: ");
 	scanf("%d", &b_pay);
 	asm{
@@ -18,7 +18,7 @@ void main(){
 		mov ax, b_pay
 		mul y
 		div z
-		mov hra, ax           // hra value achieved
+		mov hra ax           // hra value achieved
 
 		mov ax, b_pay
 		mul t
